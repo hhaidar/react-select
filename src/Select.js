@@ -628,53 +628,60 @@ const Select = React.createClass({
 	},
 
 	renderInput (valueArray) {
+		var className = classNames('Select-input', this.props.inputProps.className);
 		if (this.props.inputRenderer) {
-			return this.props.inputRenderer();
-		} else {
-			var className = classNames('Select-input', this.props.inputProps.className);
-			if (this.props.disabled || !this.props.searchable) {
-				return (
-					<div
-						{...this.props.inputProps}
-						className={className}
-						tabIndex={this.props.tabIndex || 0}
-						onBlur={this.handleInputBlur}
-						onFocus={this.handleInputFocus}
-						ref="input"
-						style={{ border: 0, width: 1, display:'inline-block' }}/>
-				);
-			}
-			if (this.props.autosize) {
-				return (
-					<Input
-						{...this.props.inputProps}
-						className={className}
-						tabIndex={this.props.tabIndex}
-						onBlur={this.handleInputBlur}
-						onChange={this.handleInputChange}
-						onFocus={this.handleInputFocus}
-						minWidth="5"
-						ref="input"
-						required={this.state.required}
-						value={this.state.inputValue}
-					/>
-				);
-			}
+			return this.props.inputRenderer({
+				...this.props.inputProps,
+				ref: "input",
+				onBlur: this.handleInputBlur,
+				onChange: this.handleInputChange,
+				onFocus: this.handleInputFocus,
+				value: this.state.inputValue
+			});
+		}
+		if (this.props.disabled || !this.props.searchable) {
 			return (
-				<div className={ className }>
-					<input
-						{...this.props.inputProps}
-						tabIndex={this.props.tabIndex}
-						onBlur={this.handleInputBlur}
-						onChange={this.handleInputChange}
-						onFocus={this.handleInputFocus}
-						ref="input"
-						required={this.state.required}
-						value={this.state.inputValue}
-					/>
-				</div>
+				<div
+					{...this.props.inputProps}
+					className={className}
+					tabIndex={this.props.tabIndex || 0}
+					onBlur={this.handleInputBlur}
+					onFocus={this.handleInputFocus}
+					ref="input"
+					style={{ border: 0, width: 1, display:'inline-block' }}/>
 			);
 		}
+		if (this.props.autosize) {
+			return (
+				<Input
+					{...this.props.inputProps}
+					className={className}
+					tabIndex={this.props.tabIndex}
+					onBlur={this.handleInputBlur}
+					onChange={this.handleInputChange}
+					onFocus={this.handleInputFocus}
+					minWidth="5"
+					ref="input"
+					required={this.state.required}
+					value={this.state.inputValue}
+				/>
+			);
+		}
+		return (
+			<div className={ className }>
+				<input
+					{...this.props.inputProps}
+					tabIndex={this.props.tabIndex}
+					onBlur={this.handleInputBlur}
+					onChange={this.handleInputChange}
+					onFocus={this.handleInputFocus}
+					ref="input"
+					required={this.state.required}
+					value={this.state.inputValue}
+				/>
+			</div>
+		);
+
 	},
 
 	renderClear () {
